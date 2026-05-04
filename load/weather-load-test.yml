@@ -1,0 +1,32 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 30
+      arrivalRate: 5
+      name: "Warm up phase"
+    - duration: 30
+      arrivalRate: 10
+      name: "Normal load phase"
+    - duration: 30
+      arrivalRate: 20
+      name: "Peak load phase"
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  - name: "Weather API load test"
+    flow:
+      - get:
+          url: "/api/weather"
+
+      - post:
+          url: "/api/weather"
+          json:
+            location: "LoadTestCity"
+            temperature: 22.5
+            humidity: 65
+            weather_condition: "sunny"
+
+      - get:
+          url: "/health"

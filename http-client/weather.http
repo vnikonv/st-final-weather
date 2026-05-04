@@ -1,0 +1,150 @@
+### 1. GET all weather
+GET http://localhost:3000/api/weather
+
+> {%
+    client.test("GET /api/weather returns 200", function() {
+        client.assert(response.status === 200, "Expected status 200");
+    });
+
+    client.test("GET /api/weather returns array", function() {
+        client.assert(Array.isArray(response.body), "Expected array response");
+    });
+%}
+
+
+### 2. GET weather by ID
+GET http://localhost:3000/api/weather/1
+
+> {%
+    client.test("GET /api/weather/1 returns 200 or 404", function() {
+        client.assert(response.status === 200 || response.status === 404, "Expected 200 or 404");
+    });
+%}
+
+
+### 3. GET invalid weather
+GET http://localhost:3000/api/weather/999999
+
+> {%
+    client.test("GET invalid weather returns 404", function() {
+        client.assert(response.status === 404, "Expected 404");
+    });
+%}
+
+
+### 4. POST create weather
+POST http://localhost:3000/api/weather
+Content-Type: application/json
+
+{
+  "location": "New York",
+  "temperature": 22.5,
+  "humidity": 65,
+  "weather_condition": "sunny"
+}
+
+> {%
+    client.test("POST /api/weather returns 201", function() {
+        client.assert(response.status === 201, "Expected 201");
+    });
+
+    client.test("POST response has id", function() {
+        client.assert(response.body.id !== undefined, "Expected weather id");
+    });
+%}
+
+
+### 5. POST invalid weather with invalid temperature
+POST http://localhost:3000/api/weather
+Content-Type: application/json
+
+{
+  "location": "Chicago",
+  "temperature": -300,
+  "humidity": 50,
+  "weather_condition": "cloudy"
+}
+
+> {%
+    client.test("POST invalid weather returns 400", function() {
+        client.assert(response.status === 400, "Expected 400");
+    });
+%}
+
+
+### 6. POST invalid weather with empty location
+POST http://localhost:3000/api/weather
+Content-Type: application/json
+
+{
+  "location": "",
+  "temperature": 20,
+  "humidity": 50,
+  "weather_condition": "rainy"
+}
+
+> {%
+    client.test("POST empty location returns 400", function() {
+        client.assert(response.status === 400, "Expected 400");
+    });
+%}
+
+
+### 7. PUT update weather
+PUT http://localhost:3000/api/weather/1
+Content-Type: application/json
+
+{
+  "location": "Los Angeles",
+  "temperature": 28.5,
+  "humidity": 45,
+  "weather_condition": "clear"
+}
+
+> {%
+    client.test("PUT /api/weather/1 returns 200 or 404", function() {
+        client.assert(response.status === 200 || response.status === 404, "Expected 200 or 404");
+    });
+%}
+
+
+### 8. PUT invalid weather
+PUT http://localhost:3000/api/weather/1
+Content-Type: application/json
+
+{
+  "location": "",
+  "temperature": -500,
+  "humidity": 150,
+  "weather_condition": ""
+}
+
+> {%
+    client.test("PUT invalid weather returns 400", function() {
+        client.assert(response.status === 400, "Expected 400");
+    });
+%}
+
+
+### 9. DELETE invalid weather
+DELETE http://localhost:3000/api/weather/999999
+
+> {%
+    client.test("DELETE invalid weather returns 404", function() {
+        client.assert(response.status === 404, "Expected 404");
+    });
+%}
+
+
+### 10. Health check
+GET http://localhost:3000/health
+
+> {%
+    client.test("GET /health returns 200", function() {
+        client.assert(response.status === 200, "Expected 200");
+    });
+
+    client.test("GET /health returns OK", function() {
+        client.assert(response.body.status === "OK", "Expected OK");
+    });
+%}

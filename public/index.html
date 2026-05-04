@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <script
+            src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous">
+    </script>
+    <script src="app.js" defer></script>
+</head>
+<body>
+<div class="container">
+    <h1 data-cy="page-title">Weather Manager</h1>
+
+    <section class="form-section">
+        <h2 id="form-title" data-cy="form-title">Create Weather Entry</h2>
+        <input type="hidden" id="weather-id" data-cy="weather-id">
+
+        <div class="form-row">
+            <label for="location">Location:</label>
+            <input type="text" id="location" data-cy="location-input" required>
+        </div>
+
+        <div class="form-row">
+            <label for="temperature">Temperature (°C):</label>
+            <input type="number" step="0.1" id="temperature" data-cy="temperature-input" required>
+        </div>
+
+        <div class="form-row">
+            <label for="humidity">Humidity (%):</label>
+            <input type="number" min="0" max="100" id="humidity" data-cy="humidity-input" required>
+        </div>
+
+        <div class="form-row">
+            <label for="weather-condition">Condition:</label>
+            <input type="text" id="weather-condition" data-cy="weather-condition-input" required>
+        </div>
+
+        <div class="buttons">
+            <button id="save-btn" data-cy="save-btn">Save</button>
+            <button id="cancel-edit-btn" data-cy="cancel-edit-btn" class="secondary" style="display:none;">Cancel Edit</button>
+        </div>
+    </section>
+
+    <section class="table-section">
+        <h2>Weather Entries</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Location</th>
+                <th>Temperature (°C)</th>
+                <th>Humidity (%)</th>
+                <th>Condition</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody id="weather-table-body" data-cy="weather-table-body">
+            </tbody>
+        </table>
+    </section>
+</div>
+</body>
+</html>
